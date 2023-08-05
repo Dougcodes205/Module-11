@@ -7,7 +7,12 @@ const readNotes = () => {
   return new Promise((resolve, reject) => {
     fs.readFile(dataFilePath, 'utf8', (err, data) => {
       if (err) {
-        reject(err);
+        if (err.code === 'ENOENT') {
+          // If the file doesn't exist, return an empty array
+          resolve([]);
+        } else {
+          reject(err);
+        }
       } else {
         resolve(JSON.parse(data));
       }
