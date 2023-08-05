@@ -1,5 +1,6 @@
 const express = require('express');
 const { readNotes, writeNotes } = require('./store');
+const { v4: uuidv4 } = require('uuid');
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.post('/notes', async (req, res) => {
   try {
     const notes = await readNotes();
     const newNote = {
-      id: notes.length + 1,
+      id: uuidv4(), // Generate a unique ID for the new note
       title: req.body.title,
       text: req.body.text,
     };
@@ -25,18 +26,6 @@ router.post('/notes', async (req, res) => {
     res.json(newNote);
   } catch (error) {
     res.status(500).json({ error: 'Failed to save note.' });
-  }
-});
-
-router.delete('/notes/:id', async (req, res) => {
-  try {
-    const notes = await readNotes();
-    const noteId = parseInt(req.params.id);
-    const updatedNotes = notes.filter((note) => note.id !== noteId);
-    await writeNotes(updatedNotes);
-    res.json({ message: 'Note deleted successfully.' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to delete note.' });
   }
 });
 
