@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const router = express.Router();
 
+// Retrieve all notes
 router.get('/notes', async (req, res) => {
   try {
     const notes = await readNotes();
@@ -13,11 +14,12 @@ router.get('/notes', async (req, res) => {
   }
 });
 
+// Create a new note
 router.post('/notes', async (req, res) => {
   try {
     const notes = await readNotes();
     const newNote = {
-      id: uuidv4(), // Generate a unique ID for the new note
+      id: uuidv4(),
       title: req.body.title,
       text: req.body.text,
     };
