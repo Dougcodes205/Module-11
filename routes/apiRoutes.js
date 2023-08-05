@@ -1,5 +1,5 @@
 const express = require('express');
-const { readNotes, writeNotes } = require('./db/store');
+const { readNotes, writeNotes } = require('./store');
 const { v4: uuidv4 } = require('uuid');
 
 const router = express.Router();
